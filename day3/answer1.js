@@ -11,87 +11,199 @@ const input = `467..114..
 
 const m = input.split("\n").map((line) => line.split("").map((s) => s));
 
+m.forEach((line) => console.log(line.join("")));
+
+let sum = 0;
+
 for (let row = 0; row < m.length; row += 1) {
   for (let col = 0; col < m[row].length; col += 1) {
-    if (m[row][col] !== "." && isNaN(m[row][col])) {
+    let numbers = [];
+    if (isNaN(m[row][col]) && m[row][col] !== ".") {
       // top left
-      if (row - 1 >= 0 && col - 1 >= 0 && !isNaN(m[row - 1][col - 1])) {
-        m[row - 1][col - 1] = +m[row - 1][col - 1];
+      let i = row - 1;
+      let j = col - 1;
+      // top left detected
+      if (i >= 0 && j >= 0 && !isNaN(m[i][j])) {
+        // go left as much as possible
+        while (j >= 0) {
+          if (!isNaN(m[i][j - 1])) {
+            j--;
+          } else {
+            break;
+          }
+        }
+
+        // now go back towards right and form the number
+        let temp = 0;
+        while (j < m[i].length && !isNaN(m[i][j])) {
+          temp = temp * 10 + parseInt(m[i][j]);
+          // replace digits so we don't count a number twice
+          m[i][j] = ".";
+          j++;
+        }
+
+        numbers.push(temp);
       }
 
       // top
-      if (row - 1 >= 0 && !isNaN(m[row - 1][col])) {
-        m[row - 1][col] = +m[row - 1][col];
+      i = row - 1;
+      j = col;
+      // top detected
+      if (i >= 0 && !isNaN(m[i][j])) {
+        // no need to go left here that is already handled before
+        // go towards right and form the number
+        let temp = 0;
+        while (j < m[i].length && !isNaN(m[i][j])) {
+          temp = temp * 10 + parseInt(m[i][j]);
+          // replace digits so we don't count a number twice
+          m[i][j] = ".";
+          j++;
+        }
+
+        numbers.push(temp);
       }
 
       // top right
-      if (
-        row - 1 >= 0 &&
-        col + 1 < m[row].length &&
-        !isNaN(m[row - 1][col + 1])
-      ) {
-        m[row - 1][col + 1] = +m[row - 1][col + 1];
+      i = row - 1;
+      j = col + 1;
+      // top right detected
+      if (i >= 0 && j < m[i].length && !isNaN(m[i][j])) {
+        // no need to go left here that is already handled before
+        // go towards right and form the number
+        let temp = 0;
+        while (j < m[i].length && !isNaN(m[i][j])) {
+          temp = temp * 10 + parseInt(m[i][j]);
+          // replace digits so we don't count a number twice
+          m[i][j] = ".";
+          j++;
+        }
+
+        numbers.push(temp);
       }
 
       // right
-      if (col + 1 < m[row].length && !isNaN(m[row][col + 1])) {
-        m[row][col + 1] = +m[row][col + 1];
+      i = row;
+      j = col + 1;
+      // right detected
+      if (j < m[i].length && !isNaN(m[i][j])) {
+        // no need to go left here
+        // go towards right and form the number
+        let temp = 0;
+        while (j < m[i].length && !isNaN(m[i][j])) {
+          temp = temp * 10 + parseInt(m[i][j]);
+          // replace digits so we don't count a number twice
+          m[i][j] = ".";
+          j++;
+        }
+
+        numbers.push(temp);
       }
 
       // bottom right
-      if (
-        row + 1 < m.length &&
-        col + 1 < m[row].length &&
-        !isNaN(m[row + 1][col + 1])
-      ) {
-        m[row + 1][col + 1] = +m[row + 1][col + 1];
+      i = row + 1;
+      j = col + 1;
+      // bottom right detected
+      if (i < m.length && j < m[i].length && !isNaN(m[i][j])) {
+        // go left as much as possible
+        while (j >= 0) {
+          if (!isNaN(m[i][j - 1])) {
+            j--;
+          } else {
+            break;
+          }
+        }
+        // go towards right and form the number
+        let temp = 0;
+        while (j < m[i].length && !isNaN(m[i][j])) {
+          temp = temp * 10 + parseInt(m[i][j]);
+          // replace digits so we don't count a number twice
+          m[i][j] = ".";
+          j++;
+        }
+
+        numbers.push(temp);
       }
 
       // bottom
-      if (row + 1 < m.length && !isNaN(m[row + 1][col])) {
-        m[row + 1][col] = +m[row + 1][col];
+      i = row + 1;
+      j = col;
+      // bottom detected
+      if (i < m.length && j < m[i].length && !isNaN(m[i][j])) {
+        // go left as much as possible
+        while (j >= 0) {
+          if (!isNaN(m[i][j - 1])) {
+            j--;
+          } else {
+            break;
+          }
+        }
+        // go towards right and form the number
+        let temp = 0;
+        while (j < m[i].length && !isNaN(m[i][j])) {
+          temp = temp * 10 + parseInt(m[i][j]);
+          // replace digits so we don't count a number twice
+          m[i][j] = ".";
+          j++;
+        }
+
+        numbers.push(temp);
       }
 
       // bottom left
-      if (row + 1 < m.length && col - 1 >= 0 && !isNaN(m[row + 1][col - 1])) {
-        m[row + 1][col - 1] = +m[row + 1][col - 1];
+      i = row + 1;
+      j = col - 1;
+      // bottom left detected
+      if (i < m.length && j >= 0 && !isNaN(m[i][j])) {
+        // go left as much as possible
+        while (j >= 0) {
+          if (!isNaN(m[i][j - 1])) {
+            j--;
+          } else {
+            break;
+          }
+        }
+        // go towards right and form the number
+        let temp = 0;
+        while (j < m[i].length && !isNaN(m[i][j])) {
+          temp = temp * 10 + parseInt(m[i][j]);
+          // replace digits so we don't count a number twice
+          m[i][j] = ".";
+          j++;
+        }
+
+        numbers.push(temp);
       }
 
-      // left
-      if (col - 1 >= 0 && !isNaN(m[row][col - 1])) {
-        m[row][col - 1] = +m[row][col - 1];
+      //  left
+      i = row;
+      j = col - 1;
+      //  left detected
+      if (i < m.length && j >= 0 && !isNaN(m[i][j])) {
+        // go left as much as possible
+        while (j >= 0) {
+          if (!isNaN(m[i][j - 1])) {
+            j--;
+          } else {
+            break;
+          }
+        }
+        // go towards right and form the number
+        let temp = 0;
+        while (j < m[i].length && !isNaN(m[i][j])) {
+          temp = temp * 10 + parseInt(m[i][j]);
+          // replace digits so we don't count a number twice
+          m[i][j] = ".";
+          j++;
+        }
+
+        numbers.push(temp);
       }
+
+      numbers.forEach((n) => (sum += n));
     }
   }
 }
 
-let sum = 0;
-m.forEach((line) => {
-  let num = 0;
-  let isValid = false;
-  for (let i = 0; i < line.length; i += 1) {
-    if (typeof line[i] === "number") {
-      isValid = true;
-    }
-
-    if (!isNaN(+line[i])) {
-      num = 10 * num + +line[i];
-    } else {
-      if (isValid) {
-        sum += num;
-      }
-
-      isValid = false;
-      num = 0;
-    }
-  }
-
-  // in case the number was at end of line
-  if (isValid) {
-    sum += num;
-  }
-});
-
 console.log(sum);
 
-// m.forEach((line) => console.log(line.join("")));
+m.forEach((line) => console.log(line.join("")));
